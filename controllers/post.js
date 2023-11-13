@@ -1,4 +1,6 @@
 const posts = require("../db/post.json");
+const path = require('path');
+
 
 function index(req, res) {
     res.format({
@@ -55,8 +57,27 @@ function show(req, res) {
     }
 }
 
+function download(req, res) {
+    const slug = req.params.slug;
+
+    // Trova il post corrispondente allo slug
+    const post = posts.find((p) => p.slug === slug);
+
+    if (post) {
+
+      const imagePath = path.join(__dirname, `../public/imgs/${post.image}`);
+
+      // Invia l'immagine al client
+      res.download(imagePath);
+    } else {
+        // Se il post non è stato trovato, ritorna un errore 404
+        res.status(404).send('Post non trovato');
+    }
+}
+
 module.exports = {
     index,
     show,
-    create
+    create,
+    download
 };

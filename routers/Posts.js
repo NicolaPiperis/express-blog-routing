@@ -11,5 +11,7 @@ router.get('/create', postsController.create);
 // richiamiamo la show attraverso il dato slug presente nel database
 router.get("/post/:slug", postsController.show);
 
+router.get("/post/:slug/download", postsController.download)
+
 
 module.exports = router;
