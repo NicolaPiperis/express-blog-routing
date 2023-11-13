@@ -1,11 +1,13 @@
-// Creiamo il nostro blog personale e giorno dopo giorno lo potremo arricchire con nuove funzionalità.
-// Creiamo il progetto base con una rotta / che ritorna un h1 con scritto Benvenuto nel mio blog!
-// Creiamo un array dove inserire una lista di almeno 5 post, per ognuno indicare titolo, contenuto, immagine e tags (array di stringhe)
-// Creiamo poi una rotta /posts che ritorni tramite content negotiation la lista dei post, da un array locale. Ritorniamo i dati sotto forma di json e html stampando una semplice ul.
-// Le rotte relative ai post dovranno chiamare la funzione relativa dal controller dedicato controllers/posts.js
-// Configuriamo gli asset statici sull’applicazione in modo che si possano visualizzare le immagini associate ad ogni post.
-// Testare le immagini scrivendo manualmente il link nel browser.
+/* Usando l’array dei post fornito con le relative immagini, creare un file di routing (routers/posts.js) che conterrà le rotte necessario per l’entità  post.
+  All’interno creare le seguenti rotte:
+  / - index: ritornerà un html con una ul che stamperà la lista dei post
 
+  /:slug - show: tramite il parametro dinamico che rappresenta lo slug del post, ritornerà un json con i dati del post
+  /create - create: ritornerà un semplice html con un h1 con scritto Creazione nuovo post e nel caso venga richiesta una risposta diversa da html lancerà un errore 406
+  /:slug/download - download: dovrà far scaricare l’immagine del post rappresentato dallo slug. Attenzione, se lo slug contiene il simbolo / la rotta non funzionerà. C’è qualche strumento che ci permette di codificare lo slug?
+  Scrivere tutte le funzioni delle rotte nel controller dedicato
+  Registrare il router dentro app.js con il prefisso posts/. 
+*/
 
 
 // importiamo express e creiamo la sua istanza
@@ -28,6 +30,9 @@ app.use(express.static("public"));
 // importiamo il controller
 const postsController = require('./controllers/post');
 
+// importiamo il router
+const postsRouter = require('./routers/Posts');
+
 
 
 // Rotta principale
@@ -36,6 +41,9 @@ app.get('/', (req, res) => {
 });
 
 app.get("/post", postsController.index)
+
+// Rotte relative all'entità post
+app.use("/", postsRouter);
 
 // Avvia il server
 app.listen(port, () => {
