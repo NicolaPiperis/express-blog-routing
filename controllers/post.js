@@ -47,8 +47,11 @@ function create(req, res) {
 }
 
 function show(req, res) {
+    
     const slug = req.params.slug;
     const post = posts.find((p) => p.slug === slug);
+
+    post.image_url = `/imgs/${post.image}`
 
     if (post) {
         res.json(post);
